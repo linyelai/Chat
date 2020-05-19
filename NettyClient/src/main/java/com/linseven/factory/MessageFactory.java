@@ -32,7 +32,7 @@ public class MessageFactory {
 		Header header = new Header();
 		header.setType(MessageType.TEXT_MSG);
 		header.setSendTime(new Date().getTime());
-		UserInfo currentUser = CacheCenter.getCurrentUser();
+		UserInfo currentUser = CacheCenter.getInstance().getCurrentUser();
 		if(currentUser!=null)
 		{
 			header.setSourceUserId(currentUser.getUserId());

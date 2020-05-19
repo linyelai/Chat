@@ -7,13 +7,18 @@
 	<result column="id" property="userId" javaType="long" jdbcType="INTEGER"/>
 	<result column="username" property="username" javaType="string" jdbcType="VARCHAR"/>
 	<result column="password" property="password" javaType="string" jdbcType="VARCHAR"/>
+
+    <result column="userAvatar" property="avatar" javaType="string" jdbcType="VARCHAR"/>
+
 	<collection property="friends" ofType="com.linseven.model.Friend">
 		<id column="friendId" property="id" javaType="long" jdbcType="INTEGER"/>
 		<result column="userId" javaType="long" jdbcType="INTEGER" property="userId"/>
 		<result column="friendId" javaType="long" jdbcType="INTEGER" property="friendId"/>
 		<result column="remark" property="name" javaType="string" jdbcType="VARCHAR"/>
 		<result column="groupId" property="friendGroupId" javaType="long" jdbcType="INTEGER"/>
+        <result column="friendAvatar" property="avatar" javaType="string" jdbcType="VARCHAR"/>
 	</collection>
+
 </resultMap>
   <select id="queryUser" resultMap="User">
     select * from user U LEFT JOIN friends F ON  U.id = F.userId where U.id = #{userId}
@@ -28,6 +33,6 @@
   <select id="findAllUser" resultMap="User">
   	 select U.id as id,U.username username ,U.password password ,
      F.userId userId ,F.friendId friendId ,F.remark remark ,
-     F.groupId groupId from user U LEFT JOIN friends F ON  U.id = F.userId
+     F.groupId groupId ,U.avatar userAvatar,F.avatar friendAvatar from user U LEFT JOIN friends F ON  U.id = F.userId
   </select>
 </mapper>

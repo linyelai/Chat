@@ -27,10 +27,10 @@ public class LoginService {
 	
 	private ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 	//private final static long PORT = ;
-	//¸ù¾ÝÓÃ»§ÃûµÇÂ¼
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Â¼
 	public void login(long userId,String password)
 	{
-		//ÊÇ·ñÒÑ¾­Óë·þÎñÆ÷Á¬½Ó£¬Èç¹ûÎ´Á¬½Ó£¬ÄÇÃ´Ê×ÏÈÒªÁ¬½Ó·þÎñÆ÷¡£
+		//ï¿½Ç·ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó£ï¿½ï¿½ï¿½ï¿½Î´ï¿½ï¿½ï¿½Ó£ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Ó·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		boolean isConnected = CacheCenter.isConnected();
 		if(!isConnected){
 			try
@@ -42,13 +42,13 @@ public class LoginService {
 				e.printStackTrace();
 			}
 		}
-		//´Ó»º´æ»ñµÃµ±Ç°ÔÚÏßÕËºÅÐÅÏ¢
-		UserInfo currentUser = CacheCenter.getCurrentUser();
+		//ï¿½Ó»ï¿½ï¿½ï¿½ï¿½Ãµï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Ëºï¿½ï¿½ï¿½Ï¢
+		UserInfo currentUser = CacheCenter.getInstance().getCurrentUser();
 		if(currentUser!=null){
 			
 			long currentUserId = currentUser.getUserId();
 			if(currentUserId!=userId){
-				//·¢ËÍµÇÂ¼ÐÅÏ¢
+				//ï¿½ï¿½ï¿½Íµï¿½Â¼ï¿½ï¿½Ï¢
 				Message msg = MessageFactory.buildLoginMsg(userId, password);
 				CacheCenter.getInstance().putMessage(msg);
 				
@@ -60,7 +60,7 @@ public class LoginService {
 			CacheCenter.getInstance().putMessage(msg);
 			
 		}
-		//µÇÂ¼ÕËºÅÊÇ·ñÎªÔÚÏßÕËºÅ
+		//ï¿½ï¿½Â¼ï¿½Ëºï¿½ï¿½Ç·ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½Ëºï¿½
 		
 	}
 

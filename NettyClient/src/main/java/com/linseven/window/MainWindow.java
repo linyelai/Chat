@@ -79,6 +79,7 @@ public class MainWindow extends VBox
 				HBox child1 = (HBox) child.get(0);
 				ObservableMap<Object, Object> properties = child1.getProperties();
 				properties.put("userId", friend.getFriendId());
+				properties.put("friendName",friend.getName());
 				friendListBox.getChildren().add(friendItem);
 				
 				}

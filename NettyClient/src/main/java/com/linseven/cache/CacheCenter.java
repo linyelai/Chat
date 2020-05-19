@@ -31,6 +31,7 @@ public class CacheCenter
 	  return instance;
   }
 
+
   public void addMessage(Message msg){
   	Long userId = msg.getHeader().getSourceUserId();
 	  List<Message> messages = messageCache.get(userId);
@@ -45,7 +46,7 @@ public class CacheCenter
   	return messageCache.get(userId);
   }
    
-public static final UserInfo getCurrentUser()
+public  UserInfo getCurrentUser()
 {
 	return currentUser;
 }
@@ -94,7 +95,7 @@ public void putMessage(Message msg)
 	 currentDialog.put(userId,dialog);
  }
  
- public  static String getFriendName(Long friendId)
+ public   String getFriendName(Long friendId)
  {
 	 String friendName = null;
 	 List<Friend> friends = currentUser.getFriends();
@@ -109,7 +110,7 @@ public void putMessage(Message msg)
 	 return friendName;
  }
  
- public  static Long getFriendId(String friendName)
+ public   Long getFriendId(String friendName)
  {
 	 Long friendId = null;
 	 List<Friend> friends = currentUser.getFriends();
@@ -122,6 +123,19 @@ public void putMessage(Message msg)
 		 }
 	 }
 	 return friendId;
+ }
+
+ public String getFriendAvatar(Long friendId){
+
+  	List<Friend> friends = currentUser.getFriends();
+  	if(friends!=null){
+  		for(Friend friend :friends){
+  			if(friend.getId().equals(friendId)){
+  				return friend.getAvatar();
+			}
+		}
+	}
+	return null;
  }
  
 }

@@ -5,55 +5,75 @@ import java.net.URL;
 import java.util.List;
 
 import com.linseven.cache.CacheCenter;
-import com.linseven.controller.ChatWindowController;
 import com.linseven.factory.MessageFactory;
-import com.linseven.message.SendMessage;
 import com.linseven.model.Message;
 
 import com.linseven.sender.MessageSender;
 import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Worker;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import netscape.javascript.JSObject;
 
 public class ChatDialog {
 	
-	private long dstUserId;//���͵��û���
-	private Stage stage;//����
+	private Long dstUserId;//锟斤拷锟酵碉拷锟矫伙拷锟斤拷
+	private Stage stage;//锟斤拷锟斤拷
 	private WebView webView;
-	public ChatDialog(long dstUserId)
+	private boolean isShow;
+    private static ChatWindowController1 controller1;
+	public ChatDialog(long dstUserId,String friendName)
 	{
 		this.dstUserId = dstUserId;
-		//��ʼ������Ի���
+		//锟斤拷始锟斤拷锟斤拷锟斤拷曰锟斤拷锟�
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/linseven/component/chatWindow1.fxml"));
 		try {
-			
 			AnchorPane root = fxmlLoader.load();
 			ObservableList<Node> child = root.getChildren();
 		    webView = (WebView) child.get(0);
+		    
 			URL url = ChatDialog.class.getResource("index.html");
 			String urlStr = url.toExternalForm();
 			WebEngine engine  = webView.getEngine();
+			webView.setCache(true);
 			engine.load(urlStr);
+
+         /*   engine.getLoadWorker().stateProperty().addListener(
+                    (ObservableValue<? extends Worker.State> ov, Worker.State oldState,
+                     Worker.State newState) -> {
+
+                        if (newState == Worker.State.SUCCEEDED) {
+                            JSObject window = (JSObject) engine.executeScript("window");
+                            window.setMember("controller", new ChatWindowController1(dstUserId));
+                            window.setMember("friendName","rose");
+                            window.setMember("userName",CacheCenter.getInstance().getCurrentUser().getUsername());
+                            window.setMember("userAvatar",CacheCenter.getInstance().getCurrentUser().getAvatar());
+                            window.setMember("friendAvatar",CacheCenter.getInstance().getFriendAvatar(dstUserId));
+                        }
+                    });*/
+
+            controller1 =  new ChatWindowController1(dstUserId);
 			JSObject window = (JSObject) engine.executeScript("window");
-			window.setMember("chatWindow", this);
+			window.setMember("controller",controller1);
+			window.setMember("friendName",friendName);
+			window.setMember("userName",CacheCenter.getInstance().getCurrentUser().getUsername());
+			window.setMember("userAvatar",CacheCenter.getInstance().getCurrentUser().getAvatar());
+			window.setMember("friendAvatar",CacheCenter.getInstance().getFriendAvatar(dstUserId));
+
 			stage = new Stage();
 			Scene chatScene = new Scene(root);
 			stage.setScene(chatScene);
 			stage.setTitle(String.valueOf(dstUserId));
 			stage.show();
-			//将未查看的信息进行展示
+			isShow = true;
+			//灏嗘湭鏌ョ湅鐨勪俊鎭繘琛屽睍绀�
 			List<Message> messageList = CacheCenter.getInstance().getMessages(dstUserId);
 			readMsgList(messageList);
 
@@ -70,12 +90,12 @@ public class ChatDialog {
 			stage.sizeToScene();
 			stage.toFront();
 			stage.show();
-			//将未查看的信息进行展示
+			//灏嗘湭鏌ョ湅鐨勪俊鎭繘琛屽睍绀�
 			List<Message> messageList = CacheCenter.getInstance().getMessages(dstUserId);
 			readMsgList(messageList);
 		}
 	}
-	public void sendMsg(Integer dstUserId,String msg)
+	public void sendMsg(String msg)
 	{
 		Message<String> message = MessageFactory.buildTextMsg(dstUserId,msg);
 		MessageSender.getInstance().sendMessage(message);
@@ -83,21 +103,13 @@ public class ChatDialog {
 	}
 	public void reciveMsg(Message msg)
 	{
-		CacheCenter.getInstance().addMessage(msg);
-		/*if(msg!=null){
-			Platform.runLater(new Runnable(){
-				@Override
-				public void run() {
-					if(webView!=null) {
-						WebEngine webEngine = webView.getEngine();
-						JSObject win = (JSObject) webEngine.executeScript("window");
-						String msgStr = msg.getBody().toString();
-						win.eval("addMsg(" + msgStr + "')");
-					}
+		if(msg==null){
+			return ;
+		}
+		Long destUserId  = msg.getHeader().getSourceUserId();
+		ChatDialog dialog = CacheCenter.getInstance().getDialogByUserId(destUserId);
+		dialog.readMsg(msg);
 
-				}});
-			
-		}*/
 	}
 
 	public void readMsg(Message msg){
@@ -110,7 +122,10 @@ public class ChatDialog {
 						WebEngine webEngine = webView.getEngine();
 						JSObject win = (JSObject) webEngine.executeScript("window");
 						String msgStr = msg.getBody().toString();
-						win.eval("addMsg(" + msgStr + "')");
+						Long userId = msg.getHeader().getSourceUserId();
+						String name = CacheCenter.getInstance().getFriendName(userId);
+						win.eval("addSendMsg('" + msgStr.trim() + "')");
+						System.out.println(msgStr);
 					}
 
 				}});
@@ -124,6 +139,26 @@ public class ChatDialog {
 			messageList.forEach(msg -> {
 				readMsg(msg);
 			});
+		}
+	}
+
+	public boolean isShowing(){
+		return this.isShow;
+	}
+
+	public static class ChatWindowController1 {
+
+		private Long destUserId;
+
+
+		private ChatWindowController1(Long destUserId){
+			this.destUserId = destUserId;
+		}
+		public void sendMsg(String msg)
+		{
+			Message<String> message = MessageFactory.buildTextMsg(this.destUserId,msg);
+			MessageSender.getInstance().sendMessage(message);
+
 		}
 	}
 

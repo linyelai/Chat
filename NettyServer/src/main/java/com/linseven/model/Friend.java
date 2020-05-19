@@ -18,6 +18,16 @@ public class Friend implements Serializable{
 	private Long friendId;
 	private String name;
 	private Long friendGroupId;
+	private String avatar;
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
 	public final Long getFriendId() {
 		return friendId;
 	}

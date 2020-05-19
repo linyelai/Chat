@@ -36,9 +36,10 @@ public class FriendInfoViewController implements Initializable
 		HBox friendItem = (HBox) event.getSource();
 		ObservableMap<Object, Object> properties = friendItem.getProperties();
 		Long userId = (Long) properties.get("userId");
+		String friendName = (String)properties.get("friendName");
 		ChatDialog dialog = CacheCenter.getInstance().getDialogByUserId(userId);
 		if(dialog==null){
-			dialog = new ChatDialog(userId);
+			dialog = new ChatDialog(userId,friendName);
 			CacheCenter.getInstance().addDialog(userId, dialog);
 
 		}

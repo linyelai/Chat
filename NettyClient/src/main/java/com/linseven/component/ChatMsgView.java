@@ -11,6 +11,8 @@ import com.linseven.model.Message;
 
 
 
+import com.linseven.util.EmotIconUtil;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -79,7 +81,8 @@ public class ChatMsgView extends Pane {
 				imageView.setLayoutY(20);
 				imageView.setFitWidth(22);
 				imageView.setFitHeight(22);
-				image = new Image("/img/hj.png");
+				String imgSrc = EmotIconUtil.getEmotIcon(msgStr);
+				image = new Image("/img/wechat/"+imgSrc+".gif");
 				imageView.setImage(image);
 				page.getChildren().add(imageView);
 				break;

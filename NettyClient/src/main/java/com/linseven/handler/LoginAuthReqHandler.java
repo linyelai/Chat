@@ -32,26 +32,26 @@ public class LoginAuthReqHandler extends ChannelInboundHandlerAdapter {
 	public  static Integer timeoutCount=0;
 	@Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        //µ±¿Í»§¶Ë¸ú·þÎñ¶ËTCPÈý´ÎÎÕÊÖ³É¹¦Ö®ºó£¬ÓÉ¿Í»§¶Ë¹¹ÔìÎÕÊÖÇëÇóÏûÏ¢·¢ËÍ¸ø·þÎñ¶Ë
+        //ï¿½ï¿½ï¿½Í»ï¿½ï¿½Ë¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½TCPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö³É¹ï¿½Ö®ï¿½ï¿½ï¿½É¿Í»ï¿½ï¿½Ë¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         //ctx.writeAndFlush(buildLoginReq());
        MessageSender.getInstance().setContext(ctx);
         
     }
 
-    // ÎÕÊÖÇëÇó·¢ËÍÖ®ºó£¬°´ÕÕÐ­Òé¹æ·¶£¬·þÎñ¶ËÐèÒª·µ»ØÎÕÊÖÓ¦´ðÏûÏ¢¡£
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ó£¬°ï¿½ï¿½ï¿½Ð­ï¿½ï¿½æ·¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½
 	 @Override
 	 public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         Message message = (Message) msg;
 
-        // Èç¹ûÊÇÎÕÊÖÓ¦´ðÏûÏ¢£¬ÐèÒªÅÐ¶ÏÊÇ·ñÈÏÖ¤³É¹¦
-        //¶ÔÎÕÊÖÓ¦´ðÏûÏ¢½øÐÐ´¦Àí£¬Ê×ÏÈÅÐ¶ÏÏûÏ¢ÊÇ·ñÊÇÎÕÊÖÓ¦´ðÏûÏ¢£¬
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½Òªï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ö¤ï¿½É¹ï¿½
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½Ï¢ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½
         if (message.getHeader() != null && message.getHeader().getType() == MessageType.LOGIN_RESP) 
         {
             UserInfo user = (UserInfo) message.getBody();
             if (user==null)
             {
-                // Èç¹ûÊÇÎÕÊÖÓ¦´ðÏûÏ¢£¬Ôò¶ÔÓ¦´ð½á¹û½øÐÐÅÐ¶Ï£¬Èç¹û·Ç0£¬ËµÃ÷ÈÏÖ¤Ê§°Ü£¬¹Ø±ÕÁ´Â·£¬ÖØÐÂ·¢ÆðÁ¬½Ó¡£
-                // ÎÕÊÖÊ§°Ü£¬¹Ø±ÕÁ¬½Ó
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶Ï£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½Ö¤Ê§ï¿½Ü£ï¿½ï¿½Ø±ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¡ï¿½
+                // ï¿½ï¿½ï¿½ï¿½Ê§ï¿½Ü£ï¿½ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½
                 ctx.close();
             } 
            else 
@@ -74,9 +74,9 @@ public class LoginAuthReqHandler extends ChannelInboundHandlerAdapter {
 						
 					}});
 		    	
-		    	//ÐÄÌø°ü
+		    	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		    	 heartBeat = ctx.executor().scheduleAtFixedRate(
-		                    new LoginAuthReqHandler.HeartBeatTask(ctx), 0, 5000,
+		                    new LoginAuthReqHandler.HeartBeatTask(ctx), 0, 50000,
 		                    TimeUnit.MILLISECONDS);
 		            CacheCenter.getInstance().setCurrentUser(user);
 		           
@@ -84,7 +84,7 @@ public class LoginAuthReqHandler extends ChannelInboundHandlerAdapter {
         }
         else 
         {
-            // Èç¹û²»ÊÇ£¬Ö±½ÓÍ¸´«¸øºóÃæµÄChannelHandler½øÐÐ´¦Àí£»
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç£ï¿½Ö±ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ChannelHandlerï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½
             ctx.fireChannelRead(msg);
         }
     }
@@ -104,7 +104,7 @@ public class LoginAuthReqHandler extends ChannelInboundHandlerAdapter {
 	        	synchronized(timeoutCount){
 	        	if(timeoutCount>5)
 	        	{
-	        		System.out.println("Ê§È¥Á¬½Ó£¬Çë³¢ÊÔÖØÐÂÁ¬½Ó");
+	        		System.out.println("Ê§È¥ï¿½ï¿½ï¿½Ó£ï¿½ï¿½ë³¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 	        		ctx.channel().close();
 	        	}
 	        	else
@@ -133,7 +133,7 @@ public class LoginAuthReqHandler extends ChannelInboundHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception
     {
         ctx.fireExceptionCaught(cause);
-        System.out.println("Ê§È¥Á¬½ÓÁË£¬Çë³¢ÊÔÖØÐÂÁ¬½Ó");
+        System.out.println("Ê§È¥ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ë³¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
     }
 
 	@Override

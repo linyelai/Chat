@@ -5,7 +5,7 @@
 <configuration>
 <properties >
   <property name="username" value="root"/>
-  <property name="password" value=""/>
+  <property name="password" value="123456"/>
 </properties>
  <typeAliases>
   	<typeAlias type="com.linseven.model.UserInfo" alias="UserInfo" />

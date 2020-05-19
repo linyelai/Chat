@@ -1,5 +1,6 @@
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-88">
 <style type="text/css">
 
 .mainWin{
@@ -92,9 +93,9 @@ width:100%;
 .msg-input textarea{
 height:119px;
 width:100%;
-border-style:none;   // 边框不显示
+border-style:none;   // 杈规涓嶆樉绀�
 resize:none;
-background:transparent;  //  背景透明
+background:transparent;  //  鑳屾櫙閫忔槑
 outline: none;
 }
 .sendBtn button{
@@ -107,9 +108,108 @@ left: 680px;
 	height:24px;
 
 }
+.send-msg{
+margin-top:10px;
+}
+.send-avatar{
+margin-left:20px;
+ width:32px;
+ float:right;
+}
+.send-avatar img{
+
+width:32px;
+height:32px;
+
+
+}
+.send-msg-content{
+
+margin-top:10px;
+background-color:#ffffff;
+width:200px;
+float:right;
+}
+.send-user-name{
+
+color:#ccc;
+float:right;
+}
 </style>
 <script>
 
+window.onload= function(){
+
+var friendNameLabel = document.getElementById("friendName");
+friendNameLabel.innerHTML=friendName;
+
+}
+
+ function addMsg(msg){
+
+    if(msg!=''){
+     var msgContent = document.getElementById("msgContent");
+     var html='<div class="clear"></div>'+
+             '<div class="send-msg">'+
+      '<div class="send-avatar"><img src="'+userAvatar+'"/></div>'+
+             '<div class="send-msg-right">'+
+             '<div class="send-msg-content" id="msgContent">'+
+             '<div> '+msg+' </div>'+
+             '</div>'+
+             '</div>'+
+             '</div>';
+     msgContent.insertAdjacentHTML('beforeEnd',html);
+     msgContent.scrollTop = msgContent.scrollHeight;
+     //璋冪敤java鏂规硶
+    }
+
+   }
+ function sendEmo(e){
+	 
+	 var emoName = e.name;
+	 var emoId = e.id;
+	 sendEmoMsg(emoName,emoId);
+	 closeEmotIconPane();
+ }
+ 
+ function sendEmoMsg(msg,id){
+	 
+	 if(msg!=''){
+	     var msgContent = document.getElementById("msgContent");
+	     var html='<div class="clear"></div>'+
+	             '<div class="msg">'+
+	             '<div class="avatar"><img src="'+friendAvatar+'"/></div>'+
+	             '<div class="msg-right">'+
+	             '<div class="friend-name">'+friendName+'</div>'+
+	             '<div class="msg-content" id="msgContent">'+
+	             '<div> '+msg+' </div>'+
+	             '</div>'+
+	             '</div>'+
+	             '</div>';
+	     msgContent.insertAdjacentHTML('beforeEnd',html);
+	     msgContent.scrollTop = msgContent.scrollHeight;
+ }
+ }
+function addSendMsg(msg){
+
+      if(msg!=''){
+     var msgContent = document.getElementById("msgContent");
+     var html='<div class="clear"></div>'+
+             '<div class="msg">'+
+             '<div class="avatar"><img src="'+friendAvatar+'"/></div>'+
+             '<div class="msg-right">'+
+             '<div class="friend-name">'+friendName+'</div>'+
+             '<div class="msg-content" id="msgContent">'+
+             '<div> '+msg+' </div>'+
+             '</div>'+
+             '</div>'+
+             '</div>';
+     msgContent.insertAdjacentHTML('beforeEnd',html);
+     msgContent.scrollTop = msgContent.scrollHeight;
+     //璋冪敤java鏂规硶
+    }
+
+   }
 
 
 
@@ -119,8 +219,8 @@ function sendMsg(event) {
    var msg = msgInput.value;
    if(msg!=''){
        addMsg(msg);
-       //调用java方法
-       chatWindow.sendMsg(10001,msg);
+       //璋冪敤java鏂规硶
+       window.controller.sendMsg(msg);
        msgInput.value = '';
    }
 
@@ -135,33 +235,23 @@ function enterSendMsg(event) {
    var msg = msgInput.value;
    if(msg!=''){
           addMsg(msg);
-          //调用java方法
-          chatWindow.sendMsg(10001,msg);
+          //璋冪敤java鏂规硶
+          window.controller.sendMsg(msg);
           msgInput.value = '';
 	   }
 }
-   function addMsg(msg){
+  }
 
-    if(msg!=''){
-     var msgContent = document.getElementById("msgContent");
-     var html='<div class="clear"></div>'+
-             '<div class="msg">'+
-             '<div class="avatar"><img src="avatar.jpg"/></div>'+
-             '<div class="msg-right">'+
-             '<div class="friend-name">jiejie</div>'+
-             '<div class="msg-content" id="msgContent">'+
-             '<div> '+msg+' </div>'+
-             '</div>'+
-             '</div>'+
-             '</div>';
-     msgContent.insertAdjacentHTML('beforeEnd',html);
-     msgContent.scrollTop = msgContent.scrollHeight;
-     //调用java方法
-    }
-
-   }
+function openEmotIconPane(){
+	
+	var emoPane = document.getElementById("emoPane");
+	emoPane.style.display = "block";
 }
-
+function closeEmotIconPane(){
+	
+	var emoPane = document.getElementById("emoPane");
+	emoPane.style.display = "none";
+}
 
 </script>
 
@@ -172,17 +262,18 @@ function enterSendMsg(event) {
 <div class="mainWin">
 <!-- -->
 <div class="menu">
-<div class="friend-name-title">linseven</div>
+<div class="friend-name-title"><a href="#" id="friendName"></a></div>
 </div>
 
 
 <div class="msgs" id="msgContent">
-
+ <img  id="102" name="[微笑]" src="./wechat/100.gif"/>
 
 </div>
+
 <div class="sendPanel">
  <div class="menu-send">
-	<div><img src="emo.jpg"/></div>
+	<div onclick ="openEmotIconPane();" ><img src="emo.jpg"/></div>
 	<div><img src="file.jpg"/></div>
  </div>
  <div class="clear"></div>
@@ -195,6 +286,141 @@ function enterSendMsg(event) {
 <div></div>
 
 </div>
+
+<div id="emoPane"  style="display:none;position:absolute;left:30px;top:540px;">
+<div  > 
+<img  id="100" onclick="sendEmo(this)" id="100" name="[撇嘴]" src="./wechat/100.gif"/>
+ <img  id="102" name="[微笑]" src="./wechat/102.gif"/>
+  <img  id="103" name="[微笑]" src="./wechat/103.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/104.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/105.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/106.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/107.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/108.gif"/>
+  
+  <img  id="100" name="[微笑]" src="./wechat/109.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/110.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/111.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/112.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/113.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/114.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/115.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/116.gif"/>
+  </div>
+   <div>
+  <img  id="100" name="[微笑]" src="./wechat/117.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/118.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/119.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/120.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/121.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/122.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/123.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/124.gif"/>
+  
+  <img  id="100" name="[微笑]" src="./wechat/125.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/126.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/128.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/129.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/130.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/131.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/132.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/133.gif"/>
+  </div>
+   <div>
+  <img  id="100" name="[微笑]" src="./wechat/134.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/135.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/136.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/137.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/138.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/139.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/140.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/141.gif"/>
+ 
+  <img  id="100" name="[微笑]" src="./wechat/142.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/143.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/144.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/145.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/146.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/147.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/148.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/149.gif"/>
+
+  </div>
+  <div>
+    <img  id="100" name="[微笑]" src="./wechat/150.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/151.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/152.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/153.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/154.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/155.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/156.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/157.gif"/>
+
+   <img  id="100" name="[微笑]" src="./wechat/158.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/159.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/160.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/161.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/162.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/163.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/164.gif"/>
+   <img  id="100" name="[微笑]" src="./wechat/165.gif"/>
+
+  </div>
+  <div>
+    <img  onclick="sendEmo()" id="100" name="[微笑]" src="./wechat/166.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/167.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/168.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/169.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/170.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/171.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/172.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/173.gif"/>
+
+
+   <img  id="100" name="[微笑]" src="./wechat/174.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/175.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/176.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/177.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/178.gif"/>
+   <img  id="100" name="[微笑]" src="./wechat/179.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/180.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/181.gif"/>
+
+ </div>
+ <div>
+   <img  id="100" name="[微笑]" src="./wechat/182.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/183.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/184.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/185.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/186.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/187.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/188.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/189.gif"/>
+  
+ 
+ <img  id="100" name="[微笑]" src="./wechat/190.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/191.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/192.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/193.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/194.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/195.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/196.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/197.gif"/>
+  </div>
+  <div>
+  <img  id="101" name="[撇嘴]" src="./wechat/101.gif"/>
+ 
+  <img  id="100" name="[微笑]" src="./wechat/198.gif"/>
+ <img  id="100" name="[微笑]" src="./wechat/199.gif"/>
+  <img  id="100" name="[微笑]" src="./wechat/200.png"/>
+ <img  id="100" name="[微笑]" src="./wechat/201.png"/>
+  <img  id="100" name="[微笑]" src="./wechat/202.png"/>
+ <img  id="100" name="[微笑]" src="./wechat/203.png"/>
+  <img  id="100" name="[微笑]" src="./wechat/205.png"/>
+  </div>
+ 
+</div>
+
 </div>
 </body>
 </html>

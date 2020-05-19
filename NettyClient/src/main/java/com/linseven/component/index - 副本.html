@@ -1,0 +1,248 @@
+<html>
+<head>
+<style type="text/css">
+
+.mainWin{
+ width:800px;
+ height:700px;
+ border: 1px solid #efefef;
+ background-color:#f5f5f5;
+
+}
+.menu{
+
+border-bottom:1px solid #ccc;
+height:60px;
+}
+.msg{
+
+margin-top:10px;
+}
+.avatar
+{
+ margin-left:20px;
+ width:32px;
+ float:left;
+
+}
+.avatar img{
+
+width:32px;
+height:32px;
+
+
+}
+.msgs{
+
+height:400px;
+overflow:scroll;
+OVERFLOW-X:hidden;
+padding-bottom:10px;
+}
+.msg-right{
+
+float:left;
+width:600px;
+margin-left:20px;
+
+}
+.friend-name{
+
+color:#ccc;
+}
+.msg-content{
+
+margin-top:10px;
+background-color:#ffffff;
+width:480px;
+}
+.sendPanel{
+
+background-color:#ffffff;
+height:218px;
+}
+.friend-name-title{
+
+font-size:20px;
+margin-left:20px;
+margin-top:10px;
+
+}
+.clear{
+ clear:both;
+
+}
+.menu-send{
+padding-top:10px;
+padding-left:40px;
+
+}
+.menu-send img{
+
+width:20px;
+height:20px;
+float:left;
+margin-left:10px;
+
+}
+.msg-input{
+
+width:100%;
+}
+.msg-input textarea{
+height:119px;
+width:100%;
+border-style:none;   // 边框不显示
+resize:none;
+background:transparent;  //  背景透明
+outline: none;
+}
+.sendBtn button{
+
+left: 680px;
+  top: 40px;
+    position: relative;
+	background-color:#efefef;
+	border:none;
+	height:24px;
+
+}
+.send-msg{
+margin-top:10px;
+}
+.send-avatar{
+margin-left:20px;
+ width:32px;
+ float:right;
+}
+.send-avatar img{
+
+width:32px;
+height:32px;
+
+
+}
+.send-msg-content{
+
+margin-top:10px;
+background-color:#ffffff;
+width:200px;
+float:right;
+}
+.send-user-name{
+
+color:#ccc;
+float:right;
+}
+</style>
+<script>
+
+
+
+ function addMsg(msg){
+
+    if(msg!=''){
+     var msgContent = document.getElementById("msgContent");
+     var html='<div class="clear"></div>'+
+             '<div class="send-msg">'+
+      '<div class="send-avatar"><img src="avatar.jpg"/></div>'+
+             '<div class="send-msg-right">'+
+             
+             '<div class="send-msg-content" id="msgContent">'+
+             '<div> '+msg+' </div>'+
+             '</div>'+
+             '</div>'+
+             '</div>';
+     msgContent.insertAdjacentHTML('beforeEnd',html);
+     msgContent.scrollTop = msgContent.scrollHeight;
+     //调用java方法
+    }
+
+   }
+function addSendMsg(msg){
+
+    if(msg!=''){
+     var msgContent = document.getElementById("msgContent");
+     var html='<div class="clear"></div>'+
+             '<div class="msg">'+
+             '<div class="avatar"><img src="avatar.jpg"/></div>'+
+             '<div class="msg-right">'+
+             '<div class="friend-name">'+userName+'</div>'+
+             '<div class="msg-content" id="msgContent">'+
+             '<div> '+msg+' </div>'+
+             '</div>'+
+             '</div>'+
+             '</div>';
+     msgContent.insertAdjacentHTML('beforeEnd',html);
+     msgContent.scrollTop = msgContent.scrollHeight;
+     //调用java方法
+    }
+
+   }
+
+
+
+function sendMsg(event) {
+
+   var msgInput = document.getElementById("msgInput");
+   var msg = msgInput.value;
+   if(msg!=''){
+       addMsg(msg,'jj');
+       //调用java方法
+       //window.controller.sendMsg(msg);
+       msgInput.value = '';
+   }
+
+   
+}
+
+function enterSendMsg(event) {
+ if (event.keyCode == 13)
+ {
+
+   var msgInput = document.getElementById("msgInput");
+   var msg = msgInput.value;
+   if(msg!=''){
+          addMsg(msg,userName);
+          //调用java方法
+          window.controller.sendMsg(msg);
+          msgInput.value = '';
+	   }
+}
+  }
+
+</script>
+
+</head>
+
+
+<body>
+<div class="mainWin">
+<!-- -->
+<div class="menu">
+<div class="friend-name-title"><a href="#" id="friendName"></a></div>
+</div>
+
+
+<div class="msgs" id="msgContent">
+
+
+</div>
+<div class="sendPanel">
+ <div class="menu-send">
+	<div><img src="emo.jpg"/></div>
+	<div><img src="file.jpg"/></div>
+ </div>
+ <div class="clear"></div>
+ <div class="msg-input">
+ <textarea id="msgInput" onkeypress="enterSendMsg(event)" style="resize: none;outline:none;"></textarea>
+ </div>
+ <div class="sendBtn">
+ <button onclick="sendMsg(event)">send(S)</button>
+ </div>
+<div></div>
+
+</div>
+</div>
+</body>
+</html>

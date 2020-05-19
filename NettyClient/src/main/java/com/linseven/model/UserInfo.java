@@ -16,6 +16,9 @@ public class UserInfo implements Serializable
 	private List<Friend> friends;
 	//private List<GroupInfo> groups;
 	private List<FriendGroup> friendGroups;
+
+	private String avatar;
+
 	public final Long getUserId() {
 		return userId;
 	}
@@ -53,5 +56,12 @@ public class UserInfo implements Serializable
 	public final void setFriendGroups(List<FriendGroup> friendGroups) {
 		this.friendGroups = friendGroups;
 	}
-	
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
 }

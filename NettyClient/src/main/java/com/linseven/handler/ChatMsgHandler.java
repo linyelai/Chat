@@ -37,10 +37,10 @@ public class ChatMsgHandler extends ChannelInboundHandlerAdapter
 			    	System.out.println("message:"+msgBody);
 			    	ChatDialog dialog = CacheCenter.getInstance().getDialogByUserId(sourceUserId);
 			    	if(dialog==null){
-			    		dialog = new ChatDialog(sourceUserId);
-			    		CacheCenter.getInstance().addDialog(sourceUserId,dialog);
+						CacheCenter.getInstance().addMessage(message);
+					}else {
+						dialog.readMsg(message);
 					}
-			    	dialog.reciveMsg(message);
 			    	
 			    }
 			 

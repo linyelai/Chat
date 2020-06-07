@@ -1,0 +1,7 @@
+syntax = "proto3";
+package com.linseven.chatroom.model;
+option java_package ="com.linseven.chatroom.model";
+message LoginResponseMsg {
+    string msg = 1;
+    bool  isSuccess = 2;
+}

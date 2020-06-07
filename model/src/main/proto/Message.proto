@@ -1,0 +1,11 @@
+syntax = "proto3";
+package com.linseven.chatroom.model;
+option java_package ="com.linseven.chatroom.model";
+message Message {
+    string from = 1;
+    string  to = 2;
+    string msg = 3;
+    int32 type = 4;
+    string token = 5;
+
+}

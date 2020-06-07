@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linseven.chat.mapper.MemberMapper">
+
+    <insert id="addMember" parameterType="Member">
+      insert into user(username,nickname,password,avatar)
+        values(#{username},#{nickname},#{password},#{avatar});
+    </insert>
+    <insert id="addFriendApply" parameterType="FriendApply">
+        insert into friendapply(username,friend_username,status,create_time)
+        values(#{username},#{friendUsername},0,now());
+    </insert>
+    <insert id="addFriend" parameterType="Friend">
+        insert into friends(username,friend_username,avatar)
+        values(#{username},#{friendUsername},#{avatar});
+    </insert>
+    <update id="updateFriendApply" parameterType="FriendApply">
+        update friendapply set status = #{status}
+    </update>
+
+    <select id="findMembers" resultType="Member">
+        select username,nickname,avatar from user where username =#{username} or nickname
+        LIKE CONCAT(CONCAT('%', #{username}), '%');
+    </select>
+
+</mapper>

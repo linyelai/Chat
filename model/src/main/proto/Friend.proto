@@ -1,0 +1,14 @@
+syntax = "proto3";
+package com.linseven.chatroom.model;
+option java_package ="com.linseven.chatroom.model";
+message Friend {
+    string username = 1;
+    string friendUsername = 2;
+    string  avatar = 3;
+    string nickName = 4;
+}
+
+message FriendList{
+    repeated  Friend friendList = 1;
+}
+

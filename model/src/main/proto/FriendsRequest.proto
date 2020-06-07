@@ -1,0 +1,9 @@
+syntax = "proto3";
+package com.linseven.chatroom.model;
+option java_package ="com.linseven.chatroom.model";
+message FriendsRequest {
+    int32 type =1;
+    string token = 2;
+    string username =3;
+
+}

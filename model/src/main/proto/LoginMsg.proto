@@ -1,0 +1,7 @@
+syntax = "proto3";
+package com.linseven.chatroom.model;
+option java_package ="com.linseven.chatroom.model";
+message LoginMsg {
+    string username = 1;
+    string  password = 2;
+}

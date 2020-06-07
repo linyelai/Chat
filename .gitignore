@@ -32,3 +32,4 @@ Thumbs.db
 ./NettyClient/target/
 #classpath
 *.class
+./liaojie/app/build/*
